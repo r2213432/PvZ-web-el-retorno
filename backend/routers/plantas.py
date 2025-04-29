@@ -1,7 +1,12 @@
 from fastapi import APIRouter, HTTPException, status
+from backend.BD.cliente import cliente_pvz
 from backend.BD.modelos.planta import PlantaDB, Planta
+from backend.BD.esquemas.esquema_planta import planta_esquema, plantas_esquema, plantaBD_esquema, plantasBD_esquema
 
-router = APIRouter()
+
+router = APIRouter(tags=["Plantas"])
+cliente_planta = cliente_pvz.plantas
+"""
 
 # Lista simulada de base de datos
 lista_plantasDB = [
@@ -56,6 +61,18 @@ async def delete_plantaDB(id: int):
             return {"detail": "Planta eliminada correctamente"}
     raise HTTPException(status_code=404, detail="Planta no encontrada")
 
+"""
+def buscar_planta(campo: str, clave):
+    try:
+        planta = cliente_planta.find_one({campo: clave})
+        return PlantaDB(**plantaBD_esquema(planta))
+    except:
+        return {"error": f"No se ha encontrado la plantaBD con los valores {campo} y {clave}"}
+    
+@router.get("/plantasBD")
+async def get_plantasBD():
+    return plantasBD_esquema(cliente_planta.find())
+#Estas seran las plantas que se crearan para el jugador
 # Lista simulada de base de datos
 lista_plantas = [
     Planta(id=1, tipo="macaco", nombre="aitor", vida=1, tmp_atac=9, danho=2, rango=3, nivel=1, columna=1, fila=1),
@@ -108,3 +125,4 @@ async def delete_planta(id: int):
             del lista_plantas[index]
             return {"detail": "Planta eliminada correctamente"}
     raise HTTPException(status_code=404, detail="Planta no encontrada")
+

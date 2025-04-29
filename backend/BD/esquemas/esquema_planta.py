@@ -19,9 +19,22 @@ def planta_esquema(planta) -> dict:
         "danho" : planta["danho"],
         "rango" : planta["rango"],
         "nivel" : planta["nivel"],
-        "esta_plantado":planta["esta_plantado"],
         "columna" : planta["columna"],
         "fila" : planta["fila"]
     }
 def plantas_esquema(plantas) -> list:
     return [planta_esquema(planta) for planta in plantas]
+
+def plantaBD_esquema(plantaBD) -> dict:
+    return {
+        "id":str(plantaBD["_id"]),
+        "tipo" : plantaBD["tipo"],
+        "nombre" : plantaBD["nombre"],
+        "vida" : plantaBD["vida"],
+        "tmp_atac" : plantaBD["tmp_atac"],
+        "danho" : plantaBD["danho"],
+        "rango" : plantaBD["rango"],
+        "nivel" : plantaBD["nivel"],
+    }
+def plantasBD_esquema(plantasBD) -> list:
+    return [planta_esquema(plantaBD) for plantaBD in plantasBD]

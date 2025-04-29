@@ -7,15 +7,6 @@ from bson import ObjectId
 router=APIRouter(prefix="/entidad", tags=["Entidad"])
 cliente_entidad = cliente_pvz.entidades
 
-"""
-class Entidad(BaseModel):
-    id:int
-    tipo:str
-    nombre:str
-    vida:int
-    tmp_atac:int
-    danho:int
-"""
 
 def buscar_entidad(campo: str, clave):
     try:
