@@ -1,6 +1,6 @@
 # uvicorn main:app --reload
 from fastapi import FastAPI
-from routers import plantas, entidad
+from backend.routers import plantas, entidad
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI() 
