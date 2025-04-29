@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
-from BD.cliente import cliente_pvz
-from BD.modelos.entidad import Entidad
-from BD.esquemas.esquema_entidad import entidad_esquema, entidades_esquema
+from backend.BD.cliente import cliente_pvz
+from backend.BD.modelos.entidad import Entidad
+from backend.BD.esquemas.esquema_entidad import entidad_esquema, entidades_esquema
 from bson import ObjectId
 
 router=APIRouter(prefix="/entidad", tags=["Entidad"])
