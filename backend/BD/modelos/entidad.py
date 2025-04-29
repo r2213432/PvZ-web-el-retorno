@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from enum import Enum
 
-class cuadro_columna(Enum):
+class cuadro_columna(int, Enum):
     COLUMNA1 = 1
     COLUMNA2 = 2
     COLUMNA3 = 3
@@ -12,7 +12,7 @@ class cuadro_columna(Enum):
     COLUMNA8 = 8
     COLUMNA9 = 9
 
-class cuadro_fila(Enum):
+class cuadro_fila(int, Enum):
     FILA1 = 1
     FILA2 = 2
     FILA3 = 3
