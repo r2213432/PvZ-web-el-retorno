@@ -20,7 +20,7 @@ class cuadro_fila(Enum):
     FILA5 = 5
 
 class Entidad(BaseModel):
-    id: str  # La ID debe ser un string
+    id: int 
     tipo: str
     nombre: str
     vida: int
