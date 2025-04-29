@@ -1,13 +1,14 @@
 from fastapi import APIRouter, HTTPException
 from backend.BD.modelos.zombie import ZombieDB, Zombie
+from backend.BD.modelos.entidad import cuadro_columna, cuadro_fila
 
 router = APIRouter()
 
 # Lista de zombis simulada como base de datos
 lista_zombiesDB = [
-    ZombieDB(id=1, tipo="macaco", nombre="aitor", vida=1, tmp_atac=9, danho=2, velocidad=3, nivel=1),
-    ZombieDB(id=2, tipo="macaco2", nombre="aitor2", vida=2, tmp_atac=9, danho=2, velocidad=3, nivel=1),
-    ZombieDB(id=3, tipo="macaco3", nombre="aitor3", vida=1, tmp_atac=9, danho=2, velocidad=3, nivel=2),
+    ZombieDB(id="", tipo="macaco", nombre="aitor", vida=1, tmp_atac=9, danho=2, velocidad=3, nivel=1),
+    ZombieDB(id="", tipo="macaco2", nombre="aitor2", vida=2, tmp_atac=9, danho=2, velocidad=3, nivel=1),
+    ZombieDB(id="", tipo="macaco3", nombre="aitor3", vida=1, tmp_atac=9, danho=2, velocidad=3, nivel=2),
 ]
 
 # Buscar zombie por ID
@@ -58,9 +59,9 @@ async def delete_zombieDB(id: int):
 
 # Lista de zombis simulada como base de datos
 lista_zombies = [
-    Zombie(id=1, tipo="macaco", nombre="aitor", vida=1, tmp_atac=9, danho=2, velocidad=3, nivel=1, columna=1, fila=1),
-    Zombie(id=2, tipo="macaco2", nombre="aitor2", vida=2, tmp_atac=9, danho=2, velocidad=3, nivel=1, columna=1, fila=2),
-    Zombie(id=3, tipo="macaco3", nombre="aitor3", vida=1, tmp_atac=9, danho=2, velocidad=3, nivel=2, columna=1, fila=3),
+    Zombie(id="", tipo="macaco", nombre="aitor", vida=1, tmp_atac=9, danho=2, velocidad=3, nivel=1, columna=1, fila=1),
+    Zombie(id="", tipo="macaco2", nombre="aitor2", vida=2, tmp_atac=9, danho=2, velocidad=3, nivel=1, columna=1, fila=2),
+    Zombie(id="", tipo="macaco3", nombre="aitor3", vida=1, tmp_atac=9, danho=2, velocidad=3, nivel=2, columna=1, fila=3),
 ]
 
 # Buscar zombie por ID
@@ -108,3 +109,36 @@ async def delete_zombie(id: int):
             del lista_zombies[index]
             return {"detail": "Zombie eliminado correctamente"}
     raise HTTPException(status_code=404, detail="Zombie no encontrado")
+
+
+@router.put("/zombie_a_DB")
+async def put_conversion(zombiedb: ZombieDB, columna: cuadro_columna, fila: cuadro_fila):
+    # Usamos model_dump() en lugar de dict() (Pydantic v2)
+    zombie_colocado = Zombie(**zombiedb.model_dump(), columna=columna, fila=fila)
+    
+    # Buscamos y quitamos el zombie de la lista DB por id (no por objeto, ya que son distintos)
+    for i, p in enumerate(lista_zombiesDB):
+        if p.id == zombiedb.id:
+            del lista_zombiesDB[i]
+            break
+    else:
+        raise HTTPException(status_code=404, detail="Zombie no creada")
+
+    lista_zombies.append(zombie_colocado)
+    return zombie_colocado
+
+
+#pasar Zombie  a Zombie db
+@router.put("/zombiedb_a_n")
+async def put_conversion(zombie: Zombie):
+    zombie_descolocado=ZombieDB(id=zombie.id, tipo=zombie.tipo, nombre=zombie.nombre, vida=zombie.vida,
+                                tmp_atac=zombie.tmp_atac, danho=zombie.danho,
+                                nivel=zombie.nivel, velocidad=zombie.velocidad)
+    for i, p in enumerate(lista_zombies):
+        if p.id == zombie.id:
+            del lista_zombies[i]
+            break
+    else:
+        raise HTTPException(status_code=404, detail="Zombie no creada")
+    lista_zombiesDB.append(zombie_descolocado)
+    return zombie_descolocado
