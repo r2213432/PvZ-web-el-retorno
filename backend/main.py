@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI() 
+
 #Para permitir que otros puertos puedan acceder a la API
 
 origins = [
@@ -18,6 +19,7 @@ app.add_middleware(
     allow_methods=["*"],  # Permite todos los métodos HTTP (GET, POST, PUT, DELETE, OPTIONS)
     allow_headers=["*"],  # Permite todos los encabezados HTTP
 )
+
 
 app.include_router(plantas.router)
 app.include_router(zombies.router)

@@ -1,74 +1,70 @@
 from fastapi import APIRouter, HTTPException, status
+<<<<<<< HEAD
+from backend.BD.cliente import cliente_pvz
+from backend.BD.modelos.planta import PlantaDB, Planta, cuadro_columna, cuadro_fila
+from backend.BD.esquemas.esquema_planta import planta_esquema, plantas_esquema, plantaBD_esquema, plantasBD_esquema
+from bson import ObjectId
+=======
 from BD.cliente import cliente_pvz
 from BD.modelos.planta import PlantaDB, Planta, cuadro_columna, cuadro_fila
 from BD.esquemas.esquema_planta import planta_esquema, plantas_esquema, plantaBD_esquema, plantasBD_esquema
+>>>>>>> 8fd5177e4667ed90e8d4e05ce29bc14ad4276437
 
 
 router = APIRouter(tags=["Plantas"])
 cliente_planta = cliente_pvz.plantas
-# Lista simulada de base de datos
-lista_plantasDB = [
-    PlantaDB(id="1", tipo="macaco", nombre="aitor", vida=1, tmp_atac=9, danho=2, rango=3, nivel=1),
-    PlantaDB(id="1", tipo="macaco2", nombre="aitor2", vida=2, tmp_atac=9, danho=2, rango=3, nivel=1),
-    PlantaDB(id="1", tipo="macaco3", nombre="aitor3", vida=1, tmp_atac=9, danho=2, rango=3, nivel=2),
-]
-"""
 
-
-# Función de búsqueda
-def buscar_plantaDB(id: int):
-    for plantaDB in lista_plantasDB:
-        if plantaDB.id == id:
-            return plantaDB
-    return None
-
-# Obtener todas las plantas
-@router.get("/plantasDB")
-async def get_plantasDB():
-    return lista_plantasDB
-
-# Obtener una planta por ID
-@router.get("/plantaDB/{id}")
-async def get_plantaDB(id: int):
-    planta = buscar_plantaDB(id)
-    if not planta:
-        raise HTTPException(status_code=404, detail="Planta no encontrada")
-    return planta
-
-# Crear una nueva planta
-@router.post("/plantaDB", response_model=PlantaDB, status_code=201)
-async def post_plantaDB(plantadb: PlantaDB):
-    if buscar_plantaDB(plantadb.id):
-        raise HTTPException(status_code=400, detail="PlantaDB ya existente")
-    lista_plantasDB.append(plantadb)
-    return plantadb
-
-# Actualizar una planta existente
-@router.put("/plantaDB", response_model=PlantaDB)
-async def put_plantaDB(plantadb: PlantaDB):
-    for index, plantaDB_guardada in enumerate(lista_plantasDB):
-        if plantaDB_guardada.id == plantadb.id:
-            lista_plantasDB[index] = plantadb
-            return plantadb
-    raise HTTPException(status_code=404, detail="Planta no encontrada")
-
-# Eliminar una planta
-@router.delete("/plantaDB/{id}")
-async def delete_plantaDB(id: int):
-    for index, planta_guardada in enumerate(lista_plantasDB):
-        if planta_guardada.id == id:
-            del lista_plantasDB[index]
-            return {"detail": "Planta eliminada correctamente"}
-    raise HTTPException(status_code=404, detail="Planta no encontrada")
-
-"""
-
-def buscar_planta(campo: str, clave):
+def buscar_plantadb(campo: str, clave):
     try:
         planta = cliente_planta.find_one({campo: clave})
-        return PlantaDB(**plantaBD_esquema(planta))
+        return Planta(**planta_esquema(planta)) #User(**user_schema(user))
     except:
-        return {"error": f"No se ha encontrado la plantaBD con los valores {campo} y {clave}"}
+        return {"error": f"No se ha encontrado la entidad con los valores {campo} y {clave}"}
+
+@router.get("/plantasDB")
+async def get_plantas():
+    return planta_esquema(cliente_pvz.plantas.find()) #devuelve una lista de entidades en formato json borja
+
+@router.get("/plantaDB/{id}") #por path
+async def get_plants_id(id:str):
+    return buscar_plantadb("_id", ObjectId(id))
+
+@router.get("/plantaDB/") #por query
+async def get_plants_id_query(id:str):
+    return buscar_plantadb("_id", ObjectId(id))
+
+@router.post("/planta/", response_model=Planta, status_code=201) #por query
+async def post_planta(planta: Planta):
+    if type(buscar_plantadb("_id", ObjectId(planta.id))) == Planta:
+        raise HTTPException(status_code=404, detail=f"La planta con id {planta.id} ya existe")
+    planta_dict = dict(planta)
+    del planta_dict["id"] #Me aseguro que no tenga el atributo id
+
+    id = cliente_planta.insert_one(planta_dict).inserted_id
+
+    new_planta = planta_esquema(cliente_planta.find_one({"_id":id}))
+    return Planta(**new_planta)
+
+
+@router.put("/Planta/", response_model=Planta)
+async def put_planta(planta: Planta): #Por query
+    planta_dict = dict(planta)
+    del planta_dict["id"]
+    try:
+        cliente_planta.find_one_and_replace(
+            {"_id": ObjectId(planta.id)}, planta_dict)
+    except:
+        return {"error": "No se ha actualizado la entidad"}
+    return buscar_planta("_id", ObjectId(planta.id))
+
+@router.delete("planta/{id}", status_code=204)
+async def delete_planta(id:str):
+    encontrado = cliente_planta.find_one_and_delete({"_id": ObjectId(id)})
+    if not encontrado:
+        return {"error": "Planta no eliminada"}
+
+
+
     
 @router.get("/plantasBD")
 async def get_plantasBD():
