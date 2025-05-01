@@ -1,4 +1,4 @@
-from backend.BD.modelos.entidad import Entidad, cuadro_fila, cuadro_columna
+from BD.modelos.entidad import Entidad, cuadro_fila, cuadro_columna
 
 class PlantaDB(Entidad):
         rango: int

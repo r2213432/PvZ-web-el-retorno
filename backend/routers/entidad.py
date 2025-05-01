@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
-from backend.BD.cliente import cliente_pvz
-from backend.BD.modelos.entidad import Entidad
-from backend.BD.esquemas.esquema_entidad import entidad_esquema, entidades_esquema
+from BD.cliente import cliente_pvz
+from BD.modelos.entidad import Entidad
+from BD.esquemas.esquema_entidad import entidad_esquema, entidades_esquema
 from bson import ObjectId
 
 router=APIRouter(prefix="/entidad", tags=["Entidad"])
@@ -16,6 +16,9 @@ def buscar_entidad(campo: str, clave):
         return {"error": f"No se ha encontrado la entidad con los valores {campo} y {clave}"}
 @router.get("/")
 async def get_entidades():
+    a =entidades_esquema(cliente_pvz.entidades.find()) 
+    print(f"{a}")
+
     return entidades_esquema(cliente_pvz.entidades.find()) #devuelve una lista de entidades en formato json borja
 
 @router.get("/{id}") #por path

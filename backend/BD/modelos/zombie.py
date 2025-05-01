@@ -1,4 +1,4 @@
-from backend.BD.modelos.entidad import Entidad, cuadro_columna, cuadro_fila
+from BD.modelos.entidad import Entidad, cuadro_columna, cuadro_fila
 
 class ZombieDB(Entidad):
     velocidad: int
