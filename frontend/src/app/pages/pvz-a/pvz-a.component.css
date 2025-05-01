@@ -1,0 +1,52 @@
+.todaslasplantas {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.contenedorplanta {
+    text-align: center;
+    border: 2px solid black; 
+    border-radius: 10px;    
+    padding: 10px;  
+    background-color: #67FF66;
+}
+
+.tituloplanta {
+    font-size: 30px;
+    margin-bottom: 8px;
+    margin-top: 0px;
+    font-family: "Oswald", sans-serif;
+    font-weight: bold;
+}
+
+.imagenplanta {
+    width: 200px;
+}
+
+.letrabajoplanta {
+    font-family: "Comic Relief", system-ui;
+    font-size: 22px;
+    margin-top: 9px;
+    margin-bottom: 6px;
+}
+
+
+
+
+
+
+
+#tamanyoLogoPVZ {
+    width: 100px;
+    position: absolute;
+    top: 20px;
+    left: 35px;
+}
+
+#colorBarra {
+    background-color: #005500;
+    height: 100px;
+}
