@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from backend.BD.modelos.zombie import ZombieDB, Zombie
-from backend.BD.modelos.entidad import cuadro_columna, cuadro_fila
+from BD.modelos.zombie import ZombieDB, Zombie
+from BD.modelos.entidad import cuadro_columna, cuadro_fila
 
 router = APIRouter()
 
