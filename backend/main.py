@@ -20,6 +20,7 @@ app.add_middleware(
     allow_headers=["*"],  # Permite todos los encabezados HTTP
 )
 
+
 app.include_router(plantas.router)
 app.include_router(zombies.router)
 app.include_router(entidad.router)
