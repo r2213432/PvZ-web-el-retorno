@@ -1,0 +1,31 @@
+<div class="divgeneral">
+
+  <div>
+    <img class="logopvz" src="https://i.imgur.com/dNCUBK9.png">
+  </div>
+
+  <div class="contenedorFLECHASeIMAGEN">
+    <div>
+      <img (click) = anteriorImagen() class="flechaizq flecha" src="https://i.imgur.com/oKIFGqC.png">
+    </div>
+
+    <div class="contenedor">
+      <img class="imagengrande" [src]="src">
+      <img *ngIf="contador === 1" class="boton" src="https://i.imgur.com/EoUUOQO.png">
+      <img *ngIf="contador === 2" routerLink="/AlmanaquePlantas" class="boton" src="https://i.imgur.com/ERWjIqT.png">
+      <img *ngIf="contador === 3" class="boton" src="https://i.imgur.com/HRNNCWM.png">
+    </div>
+
+    <div>
+      <img (click) = siguienteImagen() class="flechaderecha flecha" src="https://i.imgur.com/qvlbhNu.png">
+    </div>
+  </div>
+
+  <div class="contenedorPuntos">
+    <span class="punto" [ngClass]="{ 'activado': contador === 1 }"></span> 
+    <span class="punto" [ngClass]="{ 'activado': contador === 2 }"></span>
+    <span class="punto" [ngClass]="{ 'activado': contador === 3 }"></span>
+  </div>
+
+
+</div>

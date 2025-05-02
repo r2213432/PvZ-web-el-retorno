@@ -1,14 +1,10 @@
 from fastapi import APIRouter, HTTPException, status
-<<<<<<< HEAD
-from backend.BD.cliente import cliente_pvz
-from backend.BD.modelos.planta import PlantaDB, Planta, cuadro_columna, cuadro_fila
-from backend.BD.esquemas.esquema_planta import planta_esquema, plantas_esquema, plantaBD_esquema, plantasBD_esquema
-from bson import ObjectId
-=======
+
+
 from BD.cliente import cliente_pvz
 from BD.modelos.planta import PlantaDB, Planta, cuadro_columna, cuadro_fila
 from BD.esquemas.esquema_planta import planta_esquema, plantas_esquema, plantaBD_esquema, plantasBD_esquema
->>>>>>> 8fd5177e4667ed90e8d4e05ce29bc14ad4276437
+from bson import ObjectId
 
 
 router = APIRouter(tags=["Plantas"])

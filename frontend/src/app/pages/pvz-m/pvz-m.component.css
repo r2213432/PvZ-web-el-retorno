@@ -1,0 +1,98 @@
+.logopvz {
+    margin: 0 auto;      
+    display: block;
+    width: 500px;
+    margin-bottom: 15px;
+}
+
+.divgeneral {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.contenedorFLECHASeIMAGEN {
+    display: flex;
+    gap: 20px;
+}
+
+.contenedor {
+    position: relative;
+}
+
+.boton {
+    position: absolute;
+    margin-top: 190px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.boton:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.activo {
+    opacity: 1;
+}
+  
+.inactivo {
+    opacity: 0; 
+}
+
+.imagengrande {
+    max-width: 1000px;
+}
+
+.flechaizq {
+    margin-top: 85%;
+    max-height: 350px;
+    border-radius: 20px;
+}
+
+.flechaderecha {
+    margin-top: 85%;
+    max-height: 350px; 
+    border-radius: 20px; 
+}
+
+.flecha {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.flecha:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+body {
+    background-color: red;
+}
+
+.contenedorPuntos {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+}
+
+.punto {
+    width: 10px;
+    height: 10px;
+    background-color: #777;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.punto.activado {
+    background-color: black;
+    transform: scale(1.3);
+}
