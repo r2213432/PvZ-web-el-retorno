@@ -13,13 +13,14 @@ cliente_planta = cliente_pvz.plantas
 def buscar_plantadb(campo: str, clave):
     try:
         planta = cliente_planta.find_one({campo: clave})
-        return Planta(**planta_esquema(planta)) #User(**user_schema(user))
+        print(f"{planta}")
+        return PlantaDB(**plantaBD_esquema(planta)) #User(**user_schema(user))
     except:
         return {"error": f"No se ha encontrado la entidad con los valores {campo} y {clave}"}
 
 @router.get("/plantasDB")
 async def get_plantas():
-    return planta_esquema(cliente_pvz.plantas.find()) #devuelve una lista de entidades en formato json borja
+    return plantasBD_esquema(cliente_pvz.plantas.find()) #devuelve una lista de entidades en formato json borja
 
 @router.get("/plantaDB/{id}") #por path
 async def get_plants_id(id:str):
@@ -29,21 +30,21 @@ async def get_plants_id(id:str):
 async def get_plants_id_query(id:str):
     return buscar_plantadb("_id", ObjectId(id))
 
-@router.post("/planta/", response_model=Planta, status_code=201) #por query
-async def post_planta(planta: Planta):
-    if type(buscar_plantadb("_id", ObjectId(planta.id))) == Planta:
+@router.post("/plantaDB/", response_model=PlantaDB, status_code=201) #por query
+async def post_planta(planta: PlantaDB):
+    if type(buscar_plantadb("_id", ObjectId(planta.id))) == PlantaDB:
         raise HTTPException(status_code=404, detail=f"La planta con id {planta.id} ya existe")
     planta_dict = dict(planta)
     del planta_dict["id"] #Me aseguro que no tenga el atributo id
 
     id = cliente_planta.insert_one(planta_dict).inserted_id
 
-    new_planta = planta_esquema(cliente_planta.find_one({"_id":id}))
-    return Planta(**new_planta)
+    new_planta = plantaBD_esquema(cliente_planta.find_one({"_id":id}))
+    return PlantaDB(**new_planta)
 
 
-@router.put("/Planta/", response_model=Planta)
-async def put_planta(planta: Planta): #Por query
+@router.put("/plantaDB/", response_model=PlantaDB)
+async def put_planta(planta: PlantaDB): #Por query
     planta_dict = dict(planta)
     del planta_dict["id"]
     try:
@@ -51,9 +52,9 @@ async def put_planta(planta: Planta): #Por query
             {"_id": ObjectId(planta.id)}, planta_dict)
     except:
         return {"error": "No se ha actualizado la entidad"}
-    return buscar_planta("_id", ObjectId(planta.id))
+    return buscar_plantadb("_id", ObjectId(planta.id))
 
-@router.delete("planta/{id}", status_code=204)
+@router.delete("/plantaDB/{id}", status_code=204)
 async def delete_planta(id:str):
     encontrado = cliente_planta.find_one_and_delete({"_id": ObjectId(id)})
     if not encontrado:
@@ -62,9 +63,7 @@ async def delete_planta(id:str):
 
 
     
-@router.get("/plantasBD")
-async def get_plantasBD():
-    return plantasBD_esquema(cliente_planta.find())
+
 #Estas seran las plantas que se crearan para el jugador
 # Lista simulada de base de datos
 lista_plantas = [

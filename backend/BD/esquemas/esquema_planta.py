@@ -37,4 +37,4 @@ def plantaBD_esquema(plantaBD) -> dict:
         "nivel" : plantaBD["nivel"],
     }
 def plantasBD_esquema(plantasBD) -> list:
-    return [planta_esquema(plantaBD) for plantaBD in plantasBD]
+    return [plantaBD_esquema(plantaBD) for plantaBD in plantasBD]
